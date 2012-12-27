@@ -34,11 +34,20 @@ if sidekiq_instance?
       })
     end
     execute "remove current sidekiq symlink" do
-      command "rm /data/#{app}/current/config/initializers/sidekiq.rb"
+      command "rm -f /data/#{app}/current/config/initializers/sidekiq.rb"
     end
-    link "/data/#{app}/shared/config/sidekiq.rb" do
-      to "/data/#{app}/current/config/initializers/sidekiq.rb"
+
+    link "/data/#{app}/current/config/initializers/sidekiq.rb" do
+      to "/data/#{app}/shared/config/sidekiq.rb"
     end
+    execute "fix the permissions on sidekiq's init file" do
+      command "sudo chown #{node[:owner_name]}:#{node[:owner_name]} /data/#{app}/current/config/initializers/sidekiq.rb"
+    end
+    #file "/data/#{app}/current/config/initializers/sidekiq.rb" do
+      #action :touch
+      #owner node[:owner_name]
+      #group node[:owner_name]
+    #end
     worker_count.times do |count|
       template "/data/#{app}/shared/config/sidekiq_#{count}.yml" do
         owner node[:owner_name]
