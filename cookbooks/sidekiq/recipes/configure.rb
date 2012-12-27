@@ -35,8 +35,6 @@ if sidekiq_instance?
     end
     link "/data/#{app}/shared/config/sidekiq.rb" do
       to "/data/#{app}/current/config/initializers/sidekiq.rb"
-      owner node[:owner_name]
-      group node[:owner_name]
     end
     worker_count.times do |count|
       template "/data/#{app}/shared/config/sidekiq_#{count}.yml" do
