@@ -34,7 +34,7 @@ if sidekiq_instance?
       })
     end
     execute "remove current sidekiq symlink" do
-      command "rm /data/#{app}/current/config/sidekiq.rb"
+      command "rm /data/#{app}/current/config/initializers/sidekiq.rb"
     end
     link "/data/#{app}/shared/config/sidekiq.rb" do
       to "/data/#{app}/current/config/initializers/sidekiq.rb"
