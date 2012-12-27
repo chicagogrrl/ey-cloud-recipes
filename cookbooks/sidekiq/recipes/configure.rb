@@ -41,8 +41,6 @@ if sidekiq_instance?
         source "sidekiq.yml.erb"
         variables({
           :require => "/data/#{app}/current",
-          :namespace=> "#{app}:#{node[:environment][:framework_env]}",
-          :url=> "redis://#{node['db_host']}:6379",
           :verbose => false,
           :concurrency => 30,
           :queues => { 'default' => 25 }
