@@ -33,7 +33,9 @@ if sidekiq_instance?
         :url=> "redis://#{node['db_host']}:6379"
       })
     end
-    run "rm /data/#{app}/current/config/sidekiq.rb"
+    execute "remove current sidekiq symlink" do
+      command "rm /data/#{app}/current/config/sidekiq.rb"
+    end
     link "/data/#{app}/shared/config/sidekiq.rb" do
       to "/data/#{app}/current/config/initializers/sidekiq.rb"
     end
